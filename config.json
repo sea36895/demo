@@ -1,0 +1,17 @@
+{
+  "SITE_NAME": "影视资源",
+  "SITE_DOMAIN": "demo.test",
+  "VIDEO_PARSER": "https://vip.zykbf.com/?url=",
+  "SORT_DESC": "no",
+  "SHOW_TIME_LIMIT": "",
+  "API_LIST": [
+    {
+      "name": "如意",
+      "url": "https://cj.rycjapi.com/api.php/provide/vod/at/xml/"
+    },
+    {
+      "name": "无尽",
+      "url": "https://api.wujinapi.me/api.php/provide/vod/from/wjm3u8/at/xml/"
+    }
+  ]
+}
