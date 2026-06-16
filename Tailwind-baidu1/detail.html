@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>茅山学宫 - 影视资源</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: '#22c55e',
+            'brand-dark': '#16a34a',
+            'brand-light': '#dcfce7',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    * { scrollbar-width: thin; scrollbar-color: #d1d5db transparent; }
+    *::-webkit-scrollbar { width: 6px; background: transparent; }
+    *::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 3px; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; }
+    .nav-scroll { overflow-x: auto; white-space: nowrap; -ms-overflow-style: none; scrollbar-width: none; }
+    .nav-scroll::-webkit-scrollbar { display: none; }
+    .nav-link { transition: background-color 0.15s; }
+    .nav-link:hover { background-color: rgba(0,0,0,0.12); }
+    .episode-btn { transition: all 0.2s; }
+    .episode-btn:hover { background-color: #f3f4f6; }
+    .episode-btn:active { opacity: 0.75; transform: scale(0.97); }
+    .page-btn { transition: all 0.2s; }
+    .page-btn:active { opacity: 0.75; transform: scale(0.97); }
+  </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+
+  <!-- 顶部导航栏 -->
+  <header class="bg-white shadow-sm">
+    <div class="max-w-[1200px] mx-auto px-3 md:px-6 h-14 flex items-center gap-3">
+      <a href="index.html" class="flex-shrink-0 text-xl md:text-2xl font-bold text-gray-900 tracking-tight">影视资源</a>
+      <select class="flex-shrink-0 border border-gray-300 rounded px-2 py-1 text-sm bg-white text-gray-700 cursor-pointer focus:outline-none focus:border-green-500">
+        <option>无尽资源</option>
+        <option>精选资源</option>
+        <option>热门资源</option>
+      </select>
+      <div class="flex-1 flex items-center min-w-0">
+        <input
+          type="text"
+          placeholder="请输入关键词搜索"
+          class="flex-1 min-w-0 border border-gray-300 rounded-l px-3 py-1.5 text-sm focus:outline-none focus:border-green-500"
+          onkeydown="if(event.key==='Enter')doSearch(this.value)"
+        />
+        <button
+          onclick="doSearch(document.querySelector('input[type=text]').value)"
+          class="flex-shrink-0 bg-[#22c55e] hover:bg-[#16a34a] text-white px-3 md:px-4 py-1.5 rounded-r text-sm font-medium active:opacity-75"
+        >搜索</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- 绿色分类导航栏 -->
+  <nav class="bg-[#22c55e] shadow">
+    <div class="max-w-[1200px] mx-auto">
+      <div class="nav-scroll flex items-center px-3 md:px-6">
+        <a href="index.html" class="nav-link text-white text-sm px-3 py-2.5 flex-shrink-0">最近更新</a>
+        <a href="#" class="nav-link text-white text-sm px-3 py-2.5 flex-shrink-0">电影</a>
+        <a href="#" class="nav-link text-white text-sm px-3 py-2.5 flex-shrink-0">连续剧</a>
+        <a href="#" class="nav-link text-white text-sm px-3 py-2.5 flex-shrink-0">综艺</a>
+        <a href="#" class="nav-link text-white text-sm px-3 py-2.5 flex-shrink-0">动漫</a>
+        <a href="#" class="nav-link text-white text-sm px-3 py-2.5 flex-shrink-0">动作片</a>
+        <a href="#" class="nav-link text-white text-sm px-3 py-2.5 flex-shrink-0">喜剧片</a>
+        <a href="#" class="nav-link text-white text-sm px-3 py-2.5 flex-shrink-0">爱情片</a>
+        <a href="#" class="nav-link text-white text-sm px-3 py-2.5 flex-shrink-0">科幻片</a>
+        <a href="#" class="nav-link text-white text-sm px-3 py-2.5 flex-shrink-0">恐怖片</a>
+        <a href="#" class="nav-link text-white text-sm px-3 py-2.5 flex-shrink-0">剧情片</a>
+        <a href="#" class="nav-link text-white text-sm px-3 py-2.5 flex-shrink-0">战争片</a>
+        <a href="#" class="nav-link text-white text-sm px-3 py-2.5 flex-shrink-0">国产剧</a>
+        <a href="#" class="nav-link text-white text-sm px-3 py-2.5 flex-shrink-0">香港剧</a>
+        <a href="#" class="nav-link text-white text-sm px-3 py-2.5 flex-shrink-0">台湾剧</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 主内容区 -->
+  <main class="flex-1 max-w-[1200px] mx-auto w-full px-3 md:px-6 py-4">
+
+    <!-- 面包屑导航 -->
+    <nav class="mb-4 text-sm">
+      <a href="index.html" class="text-blue-600 hover:text-blue-800">首页</a>
+      <span class="mx-1.5 text-gray-400">»</span>
+      <a href="#" class="text-blue-600 hover:text-blue-800">国产动漫</a>
+      <span class="mx-1.5 text-gray-400">»</span>
+      <span class="text-gray-600">茅山学宫</span>
+    </nav>
+
+    <!-- 详情内容：海报 + 信息表（移动端也左右布局） -->
+    <div class="flex flex-row gap-3 md:gap-4">
+
+      <!-- 左侧：封面图 -->
+      <div class="flex-shrink-0 w-[110px] md:w-[180px]">
+        <div class="rounded overflow-hidden shadow-sm bg-white">
+          <img src="https://miaoda-site-img.cdn.bcebos.com/images/baidu_image_search_c6d68453-34c9-43a6-a803-e124021e7782.jpg" alt="茅山学宫" class="w-full object-cover aspect-[3/4]">
+        </div>
+      </div>
+
+      <!-- 右侧：信息表格 -->
+      <div class="flex-1 min-w-0">
+        <table class="w-full text-xs md:text-sm border-collapse bg-white">
+          <tbody>
+            <tr class="border-b border-gray-200">
+              <td class="py-1.5 px-2 md:px-3 text-gray-500 w-[60px] md:w-[100px] flex-shrink-0 bg-gray-50">片名</td>
+              <td class="py-1.5 px-2 md:px-3 text-gray-800">茅山学宫</td>
+            </tr>
+            <tr class="border-b border-gray-200">
+              <td class="py-1.5 px-2 md:px-3 text-gray-500 bg-gray-50">导演</td>
+              <td class="py-1.5 px-2 md:px-3 text-gray-800">王畅</td>
+            </tr>
+            <tr class="border-b border-gray-200">
+              <td class="py-1.5 px-2 md:px-3 text-gray-500 bg-gray-50 align-top">主演</td>
+              <td class="py-1.5 px-2 md:px-3 text-gray-800 leading-relaxed">魏拓晨,橙瑞,夜叉,可小幽,正经太郎,展羽,刘中正,带轮儿,张傲仪,复萌,冒冒,醉小盼</td>
+            </tr>
+            <tr class="border-b border-gray-200">
+              <td class="py-1.5 px-2 md:px-3 text-gray-500 bg-gray-50">类型</td>
+              <td class="py-1.5 px-2 md:px-3 text-gray-800">国产动漫</td>
+            </tr>
+            <tr class="border-b border-gray-200">
+              <td class="py-1.5 px-2 md:px-3 text-gray-500 bg-gray-50">地区</td>
+              <td class="py-1.5 px-2 md:px-3 text-gray-800">中国大陆</td>
+            </tr>
+            <tr class="border-b border-gray-200">
+              <td class="py-1.5 px-2 md:px-3 text-gray-500 bg-gray-50">更新</td>
+              <td class="py-1.5 px-2 md:px-3 text-gray-800">2026-06-04 19:37:52</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 剧情介绍 -->
+    <div class="mt-5">
+      <h3 class="text-sm font-bold text-gray-900 mb-2">剧情介绍：</h3>
+      <div class="bg-white border border-gray-200 rounded p-3 md:p-4 text-sm text-gray-700 leading-relaxed text-pretty">
+        蓝星人周雨肥在一场粒子对撞实验中意外跃迁到一个全民修仙的异世界大陆，为了找到这个世界的粒子加速器重返蓝星，道术小白周雨肥在猫妖黑猫和龙女林白的帮助下，结合现代思维知识逻辑，在茅山学宫开始学习茅山道术。
+      </div>
+    </div>
+
+    <!-- 集数选择 -->
+    <div class="mt-5">
+      <h3 class="text-sm font-bold text-gray-900 mb-3">《茅山学宫》- yun：</h3>
+      <div class="grid grid-cols-4 md:grid-cols-8 gap-2">
+        <button onclick="selectEpisode(this,1)" class="episode-btn border border-gray-300 bg-white rounded px-2 py-2 text-xs md:text-sm text-gray-700 text-center">第01集</button>
+        <button onclick="selectEpisode(this,2)" class="episode-btn border border-gray-300 bg-white rounded px-2 py-2 text-xs md:text-sm text-gray-700 text-center">第02集</button>
+        <button onclick="selectEpisode(this,3)" class="episode-btn border border-gray-300 bg-white rounded px-2 py-2 text-xs md:text-sm text-gray-700 text-center">第03集</button>
+        <button onclick="selectEpisode(this,4)" class="episode-btn border border-gray-300 bg-white rounded px-2 py-2 text-xs md:text-sm text-gray-700 text-center">第04集</button>
+        <button onclick="selectEpisode(this,5)" class="episode-btn border border-gray-300 bg-white rounded px-2 py-2 text-xs md:text-sm text-gray-700 text-center">第05集</button>
+        <button onclick="selectEpisode(this,6)" class="episode-btn border border-gray-300 bg-white rounded px-2 py-2 text-xs md:text-sm text-gray-700 text-center">第06集</button>
+        <button onclick="selectEpisode(this,7)" class="episode-btn border border-gray-300 bg-white rounded px-2 py-2 text-xs md:text-sm text-gray-700 text-center">第07集</button>
+        <button onclick="selectEpisode(this,8)" class="episode-btn border border-gray-300 bg-white rounded px-2 py-2 text-xs md:text-sm text-gray-700 text-center">第08集</button>
+        <button onclick="selectEpisode(this,9)" class="episode-btn border border-gray-300 bg-white rounded px-2 py-2 text-xs md:text-sm text-gray-700 text-center">第09集</button>
+        <button onclick="selectEpisode(this,10)" class="episode-btn border border-gray-300 bg-white rounded px-2 py-2 text-xs md:text-sm text-gray-700 text-center">第10集</button>
+        <button onclick="selectEpisode(this,11)" class="episode-btn border border-gray-300 bg-white rounded px-2 py-2 text-xs md:text-sm text-gray-700 text-center">第11集</button>
+        <button onclick="selectEpisode(this,12)" class="episode-btn border border-gray-300 bg-white rounded px-2 py-2 text-xs md:text-sm text-gray-700 text-center">第12集</button>
+        <button onclick="selectEpisode(this,13)" class="episode-btn border border-gray-300 bg-white rounded px-2 py-2 text-xs md:text-sm text-gray-700 text-center">第13集</button>
+        <button onclick="selectEpisode(this,14)" class="episode-btn border border-gray-300 bg-white rounded px-2 py-2 text-xs md:text-sm text-gray-700 text-center">第14集</button>
+      </div>
+    </div>
+
+    <!-- 观看帮助 -->
+    <div class="mt-5 bg-white border border-gray-200 rounded p-3 md:p-4">
+      <h3 class="text-sm font-bold text-gray-900 mb-2">《茅山学宫》- yun资源观看帮助：</h3>
+      <ol class="list-decimal list-inside text-sm text-gray-600 leading-relaxed">
+        <li>有个别电影打开后播放需要等待。</li>
+        <li>有的播放不了请多刷新几下，试试。</li>
+      </ol>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-white border-t border-gray-200 py-4 text-center text-sm text-gray-500 mt-4">
+    <p>Powered by <span class="text-gray-700 font-medium">影视资源</span></p>
+    <p class="mt-1">联系邮箱：<a href="mailto:admin@admin.com" class="text-gray-600 hover:text-green-600">admin@admin.com</a></p>
+  </footer>
+
+  <script>
+    function doSearch(keyword) {
+      if (!keyword.trim()) return;
+      alert('搜索功能开发中：' + keyword);
+    }
+
+    function selectEpisode(btn, ep) {
+      document.querySelectorAll('.episode-btn').forEach(b => {
+        b.classList.remove('bg-green-500', 'text-white', 'border-green-500');
+        b.classList.add('bg-white', 'text-gray-700', 'border-gray-300');
+      });
+      btn.classList.remove('bg-white', 'text-gray-700', 'border-gray-300');
+      btn.classList.add('bg-green-500', 'text-white', 'border-green-500');
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>影视资源 - 最近更新</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: '#22c55e',
+            'brand-dark': '#16a34a',
+            'brand-light': '#dcfce7',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    * { scrollbar-width: thin; scrollbar-color: #d1d5db transparent; }
+    *::-webkit-scrollbar { width: 6px; background: transparent; }
+    *::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 3px; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; }
+    .nav-scroll { overflow-x: auto; white-space: nowrap; -ms-overflow-style: none; scrollbar-width: none; }
+    .nav-scroll::-webkit-scrollbar { display: none; }
+    .card-img { aspect-ratio: 3/4; }
+    .card-img img { transition: transform 0.3s ease; }
+    .movie-card:hover .card-img img { transform: scale(1.05); }
+    .page-btn { transition: all 0.2s; }
+    .page-btn:active { opacity: 0.75; transform: scale(0.97); }
+    .nav-link { transition: background-color 0.15s; }
+    .nav-link:hover { background-color: rgba(0,0,0,0.12); }
+  </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+
+  <!-- 顶部导航栏 -->
+  <header class="bg-white shadow-sm">
+    <div class="max-w-[1200px] mx-auto px-3 md:px-6 h-14 flex items-center gap-3">
+      <!-- Logo -->
+      <a href="index.html" class="flex-shrink-0 text-xl md:text-2xl font-bold text-gray-900 tracking-tight">影视资源</a>
+      <!-- 下拉选择框 -->
+      <select class="flex-shrink-0 border border-gray-300 rounded px-2 py-1 text-sm bg-white text-gray-700 cursor-pointer focus:outline-none focus:border-green-500">
+        <option>无尽资源</option>
+        <option>精选资源</option>
+        <option>热门资源</option>
+      </select>
+      <!-- 搜索框 -->
+      <div class="flex-1 flex items-center min-w-0">
+        <input
+          type="text"
+          placeholder="请输入关键词搜索"
+          class="flex-1 min-w-0 border border-gray-300 rounded-l px-3 py-1.5 text-sm focus:outline-none focus:border-green-500"
+          onkeydown="if(event.key==='Enter')doSearch(this.value)"
+        />
+        <button
+          onclick="doSearch(document.querySelector('input[type=text]').value)"
+          class="flex-shrink-0 bg-[#22c55e] hover:bg-[#16a34a] text-white px-3 md:px-4 py-1.5 rounded-r text-sm font-medium active:opacity-75"
+        >搜索</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- 绿色分类导航栏 -->
+  <nav class="bg-[#22c55e] shadow">
+    <div class="max-w-[1200px] mx-auto">
+      <div class="nav-scroll flex items-center px-3 md:px-6">
+        <a href="#" onclick="setCategory(this,'最近更新')" class="nav-link nav-active text-white text-sm px-3 py-2.5 flex-shrink-0 font-medium">最近更新</a>
+        <a href="#" onclick="setCategory(this,'电影')" class="nav-link text-white text-sm px-3 py-2.5 flex-shrink-0">电影</a>
+        <a href="#" onclick="setCategory(this,'连续剧')" class="nav-link text-white text-sm px-3 py-2.5 flex-shrink-0">连续剧</a>
+        <a href="#" onclick="setCategory(this,'综艺')" class="nav-link text-white text-sm px-3 py-2.5 flex-shrink-0">综艺</a>
+        <a href="#" onclick="setCategory(this,'动漫')" class="nav-link text-white text-sm px-3 py-2.5 flex-shrink-0">动漫</a>
+        <a href="#" onclick="setCategory(this,'动作片')" class="nav-link text-white text-sm px-3 py-2.5 flex-shrink-0">动作片</a>
+        <a href="#" onclick="setCategory(this,'喜剧片')" class="nav-link text-white text-sm px-3 py-2.5 flex-shrink-0">喜剧片</a>
+        <a href="#" onclick="setCategory(this,'爱情片')" class="nav-link text-white text-sm px-3 py-2.5 flex-shrink-0">爱情片</a>
+        <a href="#" onclick="setCategory(this,'科幻片')" class="nav-link text-white text-sm px-3 py-2.5 flex-shrink-0">科幻片</a>
+        <a href="#" onclick="setCategory(this,'恐怖片')" class="nav-link text-white text-sm px-3 py-2.5 flex-shrink-0">恐怖片</a>
+        <a href="#" onclick="setCategory(this,'剧情片')" class="nav-link text-white text-sm px-3 py-2.5 flex-shrink-0">剧情片</a>
+        <a href="#" onclick="setCategory(this,'战争片')" class="nav-link text-white text-sm px-3 py-2.5 flex-shrink-0">战争片</a>
+        <a href="#" onclick="setCategory(this,'国产剧')" class="nav-link text-white text-sm px-3 py-2.5 flex-shrink-0">国产剧</a>
+        <a href="#" onclick="setCategory(this,'香港剧')" class="nav-link text-white text-sm px-3 py-2.5 flex-shrink-0">香港剧</a>
+        <a href="#" onclick="setCategory(this,'台湾剧')" class="nav-link text-white text-sm px-3 py-2.5 flex-shrink-0">台湾剧</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 主内容区 -->
+  <main class="flex-1 max-w-[1200px] mx-auto w-full px-3 md:px-6 py-4">
+
+    <!-- 最近更新列表标题 -->
+    <div class="flex items-center gap-2 mb-4">
+      <div class="w-1 h-5 bg-[#22c55e] rounded-sm"></div>
+      <h2 class="text-base md:text-lg font-bold text-gray-900">最近更新列表</h2>
+    </div>
+
+    <!-- 影片卡片网格：PC 5列，移动端 2列 -->
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-3 md:gap-4">
+
+      <!-- 卡片 1：香港探秘地图粤语 -->
+      <a href="detail.html" class="movie-card block bg-white rounded shadow-sm hover:shadow-md transition-shadow">
+        <div class="card-img relative overflow-hidden rounded-t">
+          <img src="https://miaoda-site-img.cdn.bcebos.com/images/baidu_image_search_8790631e-6a1d-4b41-8b3f-139a013a171c.jpg" alt="香港探秘地图粤语" class="w-full h-full object-cover">
+          <span class="absolute bottom-1 right-1 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">香港剧</span>
+        </div>
+        <div class="p-1.5">
+          <p class="text-xs md:text-sm text-gray-800 font-medium leading-snug text-balance line-clamp-2">香港探秘地图粤语</p>
+          <p class="text-[11px] md:text-xs text-red-500 mt-0.5">2026-06-04 20:32:59</p>
+        </div>
+      </a>
+
+      <!-- 卡片 2：香港探秘地图国语 -->
+      <a href="detail.html" class="movie-card block bg-white rounded shadow-sm hover:shadow-md transition-shadow">
+        <div class="card-img relative overflow-hidden rounded-t">
+          <img src="https://miaoda-site-img.cdn.bcebos.com/images/baidu_image_search_8790631e-6a1d-4b41-8b3f-139a013a171c.jpg" alt="香港探秘地图国语" class="w-full h-full object-cover">
+          <span class="absolute bottom-1 right-1 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">香港剧</span>
+        </div>
+        <div class="p-1.5">
+          <p class="text-xs md:text-sm text-gray-800 font-medium leading-snug text-balance line-clamp-2">香港探秘地图国语</p>
+          <p class="text-[11px] md:text-xs text-red-500 mt-0.5">2026-06-04 20:32:43</p>
+        </div>
+      </a>
+
+      <!-- 卡片 3：完美世界 -->
+      <a href="detail.html" class="movie-card block bg-white rounded shadow-sm hover:shadow-md transition-shadow">
+        <div class="card-img relative overflow-hidden rounded-t">
+          <img src="https://miaoda-site-img.cdn.bcebos.com/images/MiaoTu_12fc162a-44fd-4711-b2fd-4f48c970b9e3.jpg" alt="完美世界" class="w-full h-full object-cover">
+          <span class="absolute bottom-1 right-1 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">国产动漫</span>
+        </div>
+        <div class="p-1.5">
+          <p class="text-xs md:text-sm text-gray-800 font-medium leading-snug text-balance line-clamp-2">完美世界</p>
+          <p class="text-[11px] md:text-xs text-red-500 mt-0.5">2026-06-04 19:42:38</p>
+        </div>
+      </a>
+
+      <!-- 卡片 4：茅山学宫 -->
+      <a href="detail.html" class="movie-card block bg-white rounded shadow-sm hover:shadow-md transition-shadow">
+        <div class="card-img relative overflow-hidden rounded-t">
+          <img src="https://miaoda-site-img.cdn.bcebos.com/images/baidu_image_search_c6d68453-34c9-43a6-a803-e124021e7782.jpg" alt="茅山学宫" class="w-full h-full object-cover">
+          <span class="absolute bottom-1 right-1 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">国产动漫</span>
+        </div>
+        <div class="p-1.5">
+          <p class="text-xs md:text-sm text-gray-800 font-medium leading-snug text-balance line-clamp-2">茅山学宫</p>
+          <p class="text-[11px] md:text-xs text-red-500 mt-0.5">2026-06-04 19:37:52</p>
+        </div>
+      </a>
+
+      <!-- 卡片 5：我爱时尚盗窃 -->
+      <a href="detail.html" class="movie-card block bg-white rounded shadow-sm hover:shadow-md transition-shadow">
+        <div class="card-img relative overflow-hidden rounded-t">
+          <img src="https://miaoda-site-img.cdn.bcebos.com/images/baidu_image_search_bbb0bb27-5e23-49d0-96bd-d4780b666951.jpg" alt="我爱时尚盗窃" class="w-full h-full object-cover">
+          <span class="absolute bottom-1 right-1 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">喜剧片</span>
+        </div>
+        <div class="p-1.5">
+          <p class="text-xs md:text-sm text-gray-800 font-medium leading-snug text-balance line-clamp-2">我爱时尚盗窃</p>
+          <p class="text-[11px] md:text-xs text-red-500 mt-0.5">2026-06-04 19:06:07</p>
+        </div>
+      </a>
+
+      <!-- 卡片 6：离岸追查 -->
+      <a href="detail.html" class="movie-card block bg-white rounded shadow-sm hover:shadow-md transition-shadow">
+        <div class="card-img relative overflow-hidden rounded-t">
+          <img src="https://miaoda-site-img.cdn.bcebos.com/images/baidu_image_search_b52665b0-52ee-42a4-81b0-9ef54014571e.jpg" alt="离岸追查" class="w-full h-full object-cover">
+          <span class="absolute bottom-1 right-1 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">剧情片</span>
+        </div>
+        <div class="p-1.5">
+          <p class="text-xs md:text-sm text-gray-800 font-medium leading-snug text-balance line-clamp-2">离岸追查</p>
+          <p class="text-[11px] md:text-xs text-red-500 mt-0.5">2026-06-04 19:00:43</p>
+        </div>
+      </a>
+
+      <!-- 卡片 7：疯癫和尚之幻境传说 -->
+      <a href="detail.html" class="movie-card block bg-white rounded shadow-sm hover:shadow-md transition-shadow">
+        <div class="card-img relative overflow-hidden rounded-t">
+          <img src="https://miaoda-site-img.cdn.bcebos.com/images/baidu_image_search_732f234b-9902-42ae-b1f2-c2c683059052.jpg" alt="疯癫和尚之幻境传说" class="w-full h-full object-cover">
+          <span class="absolute bottom-1 right-1 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">剧情片</span>
+        </div>
+        <div class="p-1.5">
+          <p class="text-xs md:text-sm text-gray-800 font-medium leading-snug text-balance line-clamp-2">疯癫和尚之幻境传说</p>
+          <p class="text-[11px] md:text-xs text-red-500 mt-0.5">2026-06-04 18:50:42</p>
+        </div>
+      </a>
+
+      <!-- 卡片 8：WTO姐妹会 -->
+      <a href="detail.html" class="movie-card block bg-white rounded shadow-sm hover:shadow-md transition-shadow">
+        <div class="card-img relative overflow-hidden rounded-t">
+          <img src="https://miaoda-site-img.cdn.bcebos.com/images/baidu_image_search_df613c4c-601c-41ca-81d1-24210eee3c20.jpg" alt="WTO姐妹会" class="w-full h-full object-cover">
+          <span class="absolute bottom-1 right-1 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">港台综艺</span>
+        </div>
+        <div class="p-1.5">
+          <p class="text-xs md:text-sm text-gray-800 font-medium leading-snug text-balance line-clamp-2">WTO姐妹会</p>
+          <p class="text-[11px] md:text-xs text-red-500 mt-0.5">2026-06-04 18:25:09</p>
+        </div>
+      </a>
+
+      <!-- 卡片 9：全民星攻略 -->
+      <a href="detail.html" class="movie-card block bg-white rounded shadow-sm hover:shadow-md transition-shadow">
+        <div class="card-img relative overflow-hidden rounded-t">
+          <img src="https://miaoda-site-img.cdn.bcebos.com/images/baidu_image_search_94426016-d6f7-4ca1-b996-8843fce9c084.jpg" alt="全民星攻略" class="w-full h-full object-cover">
+          <span class="absolute bottom-1 right-1 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">港台综艺</span>
+        </div>
+        <div class="p-1.5">
+          <p class="text-xs md:text-sm text-gray-800 font-medium leading-snug text-balance line-clamp-2">全民星攻略</p>
+          <p class="text-[11px] md:text-xs text-red-500 mt-0.5">2026-06-04 18:24:49</p>
+        </div>
+      </a>
+
+      <!-- 卡片 10：妹妹亲起来 -->
+      <a href="detail.html" class="movie-card block bg-white rounded shadow-sm hover:shadow-md transition-shadow">
+        <div class="card-img relative overflow-hidden rounded-t">
+          <img src="https://miaoda-site-img.cdn.bcebos.com/images/baidu_image_search_3aab5381-6f64-413e-b568-b8a24bc5add9.jpg" alt="妹妹亲起来" class="w-full h-full object-cover">
+          <span class="absolute bottom-1 right-1 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">港台综艺</span>
+        </div>
+        <div class="p-1.5">
+          <p class="text-xs md:text-sm text-gray-800 font-medium leading-snug text-balance line-clamp-2">妹妹亲起来</p>
+          <p class="text-[11px] md:text-xs text-red-500 mt-0.5">2026-06-04 18:24:21</p>
+        </div>
+      </a>
+
+      <!-- 卡片 11：男生女生向前冲 -->
+      <a href="detail.html" class="movie-card block bg-white rounded shadow-sm hover:shadow-md transition-shadow">
+        <div class="card-img relative overflow-hidden rounded-t">
+          <img src="https://miaoda-site-img.cdn.bcebos.com/images/baidu_image_search_31806cdd-eced-4db8-918e-697c10997208.jpg" alt="男生女生向前冲" class="w-full h-full object-cover">
+          <span class="absolute bottom-1 right-1 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">大陆综艺</span>
+        </div>
+        <div class="p-1.5">
+          <p class="text-xs md:text-sm text-gray-800 font-medium leading-snug text-balance line-clamp-2">男生女生向前冲</p>
+          <p class="text-[11px] md:text-xs text-red-500 mt-0.5">2026-06-04 18:15:04</p>
+        </div>
+      </a>
+
+      <!-- 卡片 12：第三调解室 -->
+      <a href="detail.html" class="movie-card block bg-white rounded shadow-sm hover:shadow-md transition-shadow">
+        <div class="card-img relative overflow-hidden rounded-t">
+          <img src="https://miaoda-site-img.cdn.bcebos.com/images/baidu_image_search_25618832-40fa-4a65-b0fc-8605cc6ad350.jpg" alt="第三调解室" class="w-full h-full object-cover">
+          <span class="absolute bottom-1 right-1 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">大陆综艺</span>
+        </div>
+        <div class="p-1.5">
+          <p class="text-xs md:text-sm text-gray-800 font-medium leading-snug text-balance line-clamp-2">第三调解室</p>
+          <p class="text-[11px] md:text-xs text-red-500 mt-0.5">2026-06-04 18:14:43</p>
+        </div>
+      </a>
+
+      <!-- 卡片 13：灵魂摆渡·十年 -->
+      <a href="detail.html" class="movie-card block bg-white rounded shadow-sm hover:shadow-md transition-shadow">
+        <div class="card-img relative overflow-hidden rounded-t">
+          <img src="https://miaoda-site-img.cdn.bcebos.com/images/MiaoTu_275435c9-fd25-4fba-8317-1e747a28bd3f.jpg" alt="灵魂摆渡·十年" class="w-full h-full object-cover">
+          <span class="absolute bottom-1 right-1 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">国产剧</span>
+        </div>
+        <div class="p-1.5">
+          <p class="text-xs md:text-sm text-gray-800 font-medium leading-snug text-balance line-clamp-2">灵魂摆渡·十年</p>
+          <p class="text-[11px] md:text-xs text-red-500 mt-0.5">2026-06-04 17:55:20</p>
+        </div>
+      </a>
+
+      <!-- 卡片 14：三国王道恋爱 -->
+      <a href="detail.html" class="movie-card block bg-white rounded shadow-sm hover:shadow-md transition-shadow">
+        <div class="card-img relative overflow-hidden rounded-t">
+          <img src="https://miaoda-site-img.cdn.bcebos.com/images/baidu_image_search_a5e59a4b-c96d-47b5-8c83-b7b33737aa4b.jpg" alt="三国王道恋爱" class="w-full h-full object-cover">
+          <span class="absolute bottom-1 right-1 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">日本剧</span>
+        </div>
+        <div class="p-1.5">
+          <p class="text-xs md:text-sm text-gray-800 font-medium leading-snug text-balance line-clamp-2">三国王道恋爱</p>
+          <p class="text-[11px] md:text-xs text-red-500 mt-0.5">2026-06-04 17:49:19</p>
+        </div>
+      </a>
+
+      <!-- 卡片 15：星期三，请让我文夫踢你 -->
+      <a href="detail.html" class="movie-card block bg-white rounded shadow-sm hover:shadow-md transition-shadow">
+        <div class="card-img relative overflow-hidden rounded-t">
+          <img src="https://miaoda-site-img.cdn.bcebos.com/images/baidu_image_search_3aab5381-6f64-413e-b568-b8a24bc5add9.jpg" alt="星期三，请让我文夫踢你" class="w-full h-full object-cover">
+          <span class="absolute bottom-1 right-1 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">日本剧</span>
+        </div>
+        <div class="p-1.5">
+          <p class="text-xs md:text-sm text-gray-800 font-medium leading-snug text-balance line-clamp-2">星期三，请让我文夫踢你</p>
+          <p class="text-[11px] md:text-xs text-red-500 mt-0.5">2026-06-04 17:46:27</p>
+        </div>
+      </a>
+
+      <!-- 卡片 16：住进你的心 -->
+      <a href="detail.html" class="movie-card block bg-white rounded shadow-sm hover:shadow-md transition-shadow">
+        <div class="card-img relative overflow-hidden rounded-t">
+          <img src="https://miaoda-site-img.cdn.bcebos.com/images/baidu_image_search_c5b4b7b5-e918-4f2a-a063-f14dcc5968ce.jpg" alt="住进你的心" class="w-full h-full object-cover">
+          <span class="absolute bottom-1 right-1 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">韩国剧</span>
+        </div>
+        <div class="p-1.5">
+          <p class="text-xs md:text-sm text-gray-800 font-medium leading-snug text-balance line-clamp-2">住进你的心</p>
+          <p class="text-[11px] md:text-xs text-red-500 mt-0.5">2026-06-04 17:14:04</p>
+        </div>
+      </a>
+
+      <!-- 卡片 17：合着谋杀案 -->
+      <a href="detail.html" class="movie-card block bg-white rounded shadow-sm hover:shadow-md transition-shadow">
+        <div class="card-img relative overflow-hidden rounded-t">
+          <img src="https://miaoda-site-img.cdn.bcebos.com/images/baidu_image_search_986fa0c1-3dfb-4533-892d-c726b3f7d408.jpg" alt="合着谋杀案" class="w-full h-full object-cover">
+          <span class="absolute bottom-1 right-1 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">美国剧</span>
+        </div>
+        <div class="p-1.5">
+          <p class="text-xs md:text-sm text-gray-800 font-medium leading-snug text-balance line-clamp-2">合着谋杀案</p>
+          <p class="text-[11px] md:text-xs text-red-500 mt-0.5">2026-06-04 17:13:33</p>
+        </div>
+      </a>
+
+      <!-- 卡片 18：爱情同课程3 -->
+      <a href="detail.html" class="movie-card block bg-white rounded shadow-sm hover:shadow-md transition-shadow">
+        <div class="card-img relative overflow-hidden rounded-t">
+          <img src="https://miaoda-site-img.cdn.bcebos.com/images/baidu_image_search_a9c6a0b4-a6c4-41bb-9ee4-1b57c280d75d.jpg" alt="爱情同课程3" class="w-full h-full object-cover">
+          <span class="absolute bottom-1 right-1 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">韩国剧</span>
+        </div>
+        <div class="p-1.5">
+          <p class="text-xs md:text-sm text-gray-800 font-medium leading-snug text-balance line-clamp-2">爱情同课程3</p>
+          <p class="text-[11px] md:text-xs text-red-500 mt-0.5">2026-06-04 17:04:30</p>
+        </div>
+      </a>
+
+      <!-- 卡片 19：NBA篮球 -->
+      <a href="detail.html" class="movie-card block bg-white rounded shadow-sm hover:shadow-md transition-shadow">
+        <div class="card-img relative overflow-hidden rounded-t">
+          <img src="https://miaoda-site-img.cdn.bcebos.com/images/baidu_image_search_dc8644af-db92-4247-afb5-a7b376a06ecb.jpg" alt="NBA 6月4日 25-26赛季总决赛" class="w-full h-full object-cover">
+          <span class="absolute bottom-1 right-1 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">篮球</span>
+        </div>
+        <div class="p-1.5">
+          <p class="text-xs md:text-sm text-gray-800 font-medium leading-snug text-balance line-clamp-2">6月4日 25-26赛季NBA总...</p>
+          <p class="text-[11px] md:text-xs text-red-500 mt-0.5">2026-06-04 16:40:53</p>
+        </div>
+      </a>
+
+      <!-- 卡片 20：许你岁岁安安 -->
+      <a href="detail.html" class="movie-card block bg-white rounded shadow-sm hover:shadow-md transition-shadow">
+        <div class="card-img relative overflow-hidden rounded-t">
+          <img src="https://miaoda-site-img.cdn.bcebos.com/images/baidu_image_search_611a24f0-1f9e-408b-9042-17aea4fbab39.jpg" alt="许你岁岁安安" class="w-full h-full object-cover">
+          <span class="absolute bottom-1 right-1 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">漫剧</span>
+        </div>
+        <div class="p-1.5">
+          <p class="text-xs md:text-sm text-gray-800 font-medium leading-snug text-balance line-clamp-2">许你岁岁安安</p>
+          <p class="text-[11px] md:text-xs text-red-500 mt-0.5">2026-06-04 15:34:55</p>
+        </div>
+      </a>
+
+    </div>
+
+    <!-- 底部分页 -->
+    <div class="flex justify-center items-center gap-1 md:gap-2 mt-6 mb-2">
+      <button onclick="goPage('first')" class="page-btn border border-gray-300 bg-white hover:bg-gray-50 text-gray-700 px-3 py-1.5 text-sm rounded">首页</button>
+      <button onclick="goPage('prev')" class="page-btn border border-gray-300 bg-white hover:bg-gray-50 text-gray-700 px-3 py-1.5 text-sm rounded">上一页</button>
+      <span class="border border-gray-300 bg-white text-gray-700 px-3 py-1.5 text-sm rounded select-none">1/5569</span>
+      <button onclick="goPage('next')" class="page-btn border border-gray-300 bg-white hover:bg-gray-50 text-gray-700 px-3 py-1.5 text-sm rounded">下一页</button>
+      <button onclick="goPage('last')" class="page-btn border border-gray-300 bg-white hover:bg-gray-50 text-gray-700 px-3 py-1.5 text-sm rounded">尾页</button>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-white border-t border-gray-200 py-4 text-center text-sm text-gray-500 mt-2">
+    <p>Powered by <span class="text-gray-700 font-medium">影视资源</span></p>
+    <p class="mt-1">联系邮箱：<a href="mailto:admin@admin.com" class="text-gray-600 hover:text-green-600">admin@admin.com</a></p>
+  </footer>
+
+  <script>
+    // 分类导航高亮
+    function setCategory(el, name) {
+      document.querySelectorAll('nav a').forEach(a => a.classList.remove('nav-active', 'font-bold', 'underline'));
+      el.classList.add('font-bold', 'underline');
+    }
+
+    // 搜索
+    function doSearch(keyword) {
+      if (!keyword.trim()) return;
+      alert('搜索功能开发中：' + keyword);
+    }
+
+    // 分页
+    function goPage(type) {
+      const tips = { first: '已在首页', prev: '已在首页', next: '下一页加载中...', last: '跳转到尾页...' };
+      if (type === 'first' || type === 'prev') {
+        // already on first page, no-op
+      } else {
+        alert(tips[type] || '');
+      }
+    }
+  </script>
+</body>
+</html>

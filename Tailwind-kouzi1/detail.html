@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>茅山学宫 · 影视资源</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --c-primary:#22C55E;--c-primary-d:#16A34A;--c-primary-l:#DCFCE7;
+    --c-ink:#1F2937;--c-soft:#6B7280;--c-bg:#F7FAF8;--c-line:#E5E7EB;
+  }
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:"Noto Sans SC","PingFang SC",-apple-system,BlinkMacSystemFont,sans-serif;
+    color:var(--c-ink);
+    background:
+      radial-gradient(1200px 600px at 90% -10%, rgba(34,197,94,.08), transparent 60%),
+      radial-gradient(900px 500px at -10% 30%, rgba(16,185,129,.06), transparent 60%),
+      var(--c-bg);
+    min-height:100vh;
+  }
+  .font-display{font-family:"ZCOOL XiaoWei","Noto Serif SC",serif;letter-spacing:.03em;}
+  .font-num{font-family:"DM Sans",sans-serif;font-feature-settings:"tnum";}
+  .nav-gradient{
+    background:linear-gradient(90deg,#15803D 0%,#16A34A 35%,#22C55E 65%,#10B981 100%);
+    box-shadow:0 4px 20px -8px rgba(16,163,74,.55);
+  }
+  .nav-link{position:relative;transition:all .2s ease;}
+  .nav-link::after{content:'';position:absolute;left:50%;bottom:-2px;transform:translateX(-50%);width:0;height:2px;background:#fff;border-radius:2px;transition:width .25s ease;}
+  .nav-link:hover::after,.nav-link.active::after{width:75%;}
+  .nav-link.active{background:rgba(255,255,255,.18);box-shadow:inset 0 -2px 0 #fff;}
+  .search-input:focus{outline:none;box-shadow:0 0 0 3px rgba(34,197,94,.2);}
+  /* 滚动条：全局隐藏 */
+  *{scrollbar-width:none;-ms-overflow-style:none;}
+  *::-webkit-scrollbar{width:0;height:0;display:none;}
+  html,body{overflow-x:hidden;}
+  .no-bar::-webkit-scrollbar{display:none;}
+  .no-bar{scrollbar-width:none;}
+
+  /* 段落标题 */
+  .section-title{display:flex;align-items:center;gap:.75rem;}
+  .section-title::before{content:'';width:5px;height:22px;background:linear-gradient(180deg,#22C55E,#10B981);border-radius:6px;}
+
+  /* 信息表格行 */
+  .info-row{display:grid;grid-template-columns:54px 1fr;align-items:start;}
+  @media (min-width:640px){.info-row{grid-template-columns:72px 1fr;}}
+  @media (min-width:768px){.info-row{grid-template-columns:96px 1fr;}}
+  .info-key{
+    background:#F0FDF4;color:#15803D;font-weight:500;
+    padding:.45rem .55rem;border-bottom:1px solid #E5E7EB;
+    border-right:1px solid #E5E7EB;font-size:.72rem;line-height:1.5;
+  }
+  .info-val{
+    padding:.45rem .6rem;border-bottom:1px solid #E5E7EB;
+    color:#374151;font-size:.72rem;line-height:1.65;
+    word-break:break-word;
+  }
+  @media (min-width:640px){
+    .info-key{padding:.6rem .85rem;font-size:.78rem;}
+    .info-val{padding:.6rem .85rem;font-size:.8rem;line-height:1.7;}
+  }
+  @media (min-width:768px){
+    .info-key{padding:.7rem 1rem;font-size:.85rem;}
+    .info-val{padding:.7rem 1rem;font-size:.875rem;line-height:1.7;}
+  }
+  .info-row:last-child .info-key,.info-row:last-child .info-val{border-bottom:none;}
+
+  /* 海报 hero */
+  .poster-hero{
+    background:linear-gradient(135deg,#0F4C5C 0%,#0EA5E9 50%,#06B6D4 100%);
+    box-shadow:
+      0 25px 50px -12px rgba(14,116,144,.5),
+      0 0 0 1px rgba(255,255,255,.1) inset;
+  }
+  .poster-hero::after{
+    content:'';position:absolute;inset:0;border-radius:inherit;
+    background:
+      radial-gradient(circle at 30% 20%,rgba(255,255,255,.25),transparent 50%),
+      radial-gradient(circle at 70% 80%,rgba(34,197,94,.3),transparent 50%);
+    pointer-events:none;
+  }
+
+  /* 集数按钮 */
+  .ep-btn{
+    background:#fff;border:1px solid #E5E7EB;color:#374151;
+    transition:all .25s cubic-bezier(.16,1,.3,1);
+    position:relative;overflow:hidden;
+  }
+  .ep-btn::before{
+    content:'';position:absolute;inset:0;
+    background:linear-gradient(180deg,#22C55E,#16A34A);
+    transform:translateY(100%);transition:transform .25s ease;z-index:0;
+  }
+  .ep-btn span{position:relative;z-index:1;}
+  .ep-btn:hover{color:#fff;border-color:transparent;transform:translateY(-2px);box-shadow:0 8px 20px -8px rgba(22,163,74,.5);}
+  .ep-btn:hover::before{transform:translateY(0);}
+  .ep-btn.active{
+    background:linear-gradient(180deg,#22C55E,#16A34A);color:#fff;border-color:transparent;
+    box-shadow:0 8px 20px -8px rgba(22,163,74,.5);
+  }
+  .ep-btn.active::before{display:none;}
+
+  /* tab 切换 */
+  .src-tab{padding:.4rem .9rem;border-radius:.5rem;font-size:.85rem;font-weight:500;transition:all .2s;}
+  .src-tab.active{background:linear-gradient(180deg,#22C55E,#16A34A);color:#fff;box-shadow:0 6px 16px -6px rgba(22,163,74,.6);}
+  .src-tab:not(.active){color:#6B7280;background:#F3F4F6;}
+  .src-tab:not(.active):hover{background:#E5E7EB;color:#111827;}
+
+  /* 面包屑 hover */
+  .crumb a{transition:color .2s;}
+  .crumb a:hover{color:#16A34A;}
+
+  /* fade-up */
+  @keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:none;}}
+  .fade-up{animation:fadeUp .6s cubic-bezier(.16,1,.3,1) both;}
+</style>
+</head>
+<body class="antialiased">
+
+<!-- ========== Header（与首页一致） ========== -->
+<header class="bg-white/95 backdrop-blur-md border-b border-gray-100 sticky top-0 z-50">
+  <div class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-10 py-3.5 lg:py-5">
+    <div class="flex items-center justify-between gap-2 sm:gap-3 lg:gap-8">
+      <a href="index.html" class="flex items-center gap-2.5 flex-shrink-0 group">
+        <!-- 图标：移动端隐藏，仅显示文字 -->
+        <div class="hidden sm:flex w-9 h-9 lg:w-11 lg:h-11 rounded-xl bg-gradient-to-br from-emerald-400 via-green-500 to-emerald-600 items-center justify-center shadow-lg shadow-emerald-200/70 group-hover:rotate-[-6deg] transition-transform duration-300">
+          <svg class="w-5 h-5 lg:w-6 lg:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+          </svg>
+        </div>
+        <div class="flex flex-col leading-tight">
+          <span class="font-display text-lg sm:text-xl lg:text-2xl text-emerald-700 whitespace-nowrap">影视资源</span>
+          <span class="hidden lg:block text-[10px] tracking-[.3em] text-gray-400 font-num">YING SHI · FILM HUB</span>
+        </div>
+      </a>
+
+      <form class="flex items-center gap-1.5 sm:gap-2 lg:gap-3 flex-1 min-w-0 max-w-[680px]"
+            action="index.html" method="get" role="search"
+            onsubmit="return doSearch(event, this)">
+        <div class="relative flex-shrink-0">
+          <select name="type" class="appearance-none bg-white border border-gray-200 hover:border-emerald-400 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-100 rounded-lg pl-2.5 sm:pl-3.5 pr-7 sm:pr-9 py-2 text-xs sm:text-sm cursor-pointer transition-all">
+            <option>无尽资源</option><option>极速资源</option><option>高清资源</option><option>4K 蓝光</option>
+          </select>
+          <svg class="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+          </svg>
+        </div>
+        <div class="relative flex-1 min-w-0 flex items-stretch">
+          <span class="hidden sm:flex absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z"/>
+            </svg>
+          </span>
+          <input type="search" name="wd" placeholder="搜索…" autocomplete="off" aria-label="搜索影视"
+                 class="search-input flex-1 min-w-0 bg-gray-50 border border-gray-200 rounded-l-lg pl-3 sm:pl-9 pr-2 py-2 sm:py-2.5 text-xs sm:text-sm placeholder:text-gray-400 transition-all focus:bg-white focus:border-emerald-400">
+          <button type="submit" aria-label="搜索"
+                  class="bg-gradient-to-b from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white px-2.5 sm:px-4 lg:px-7 rounded-r-lg text-xs sm:text-sm font-medium transition-all flex items-center justify-center gap-1.5 shadow-md shadow-emerald-200 flex-shrink-0">
+            <svg class="w-4 h-4 sm:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z"/>
+            </svg>
+            <span class="hidden sm:inline">搜索</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <nav class="nav-gradient">
+    <div class="max-w-[1280px] mx-auto px-2 sm:px-4 lg:px-10">
+      <div class="flex items-center gap-1 sm:gap-1.5 lg:gap-2 overflow-x-auto no-bar py-2.5 lg:py-3">
+        <a href="index.html" class="nav-link text-white/95 text-[13px] lg:text-[15px] font-medium px-3 lg:px-4 py-1.5 rounded-md whitespace-nowrap">最近更新</a>
+        <a href="#" class="nav-link text-white/95 text-[13px] lg:text-[15px] font-medium px-3 lg:px-4 py-1.5 rounded-md whitespace-nowrap">电影</a>
+        <a href="#" class="nav-link text-white/95 text-[13px] lg:text-[15px] font-medium px-3 lg:px-4 py-1.5 rounded-md whitespace-nowrap">连续剧</a>
+        <a href="#" class="nav-link text-white/95 text-[13px] lg:text-[15px] font-medium px-3 lg:px-4 py-1.5 rounded-md whitespace-nowrap">综艺</a>
+        <a href="#" class="nav-link active text-white text-[13px] lg:text-[15px] font-medium px-3 lg:px-4 py-1.5 rounded-md whitespace-nowrap">动漫</a>
+        <a href="#" class="nav-link text-white/95 text-[13px] lg:text-[15px] font-medium px-3 lg:px-4 py-1.5 rounded-md whitespace-nowrap">动作片</a>
+        <a href="#" class="nav-link text-white/95 text-[13px] lg:text-[15px] font-medium px-3 lg:px-4 py-1.5 rounded-md whitespace-nowrap">喜剧片</a>
+        <a href="#" class="nav-link text-white/95 text-[13px] lg:text-[15px] font-medium px-3 lg:px-4 py-1.5 rounded-md whitespace-nowrap">爱情片</a>
+        <a href="#" class="nav-link text-white/95 text-[13px] lg:text-[15px] font-medium px-3 lg:px-4 py-1.5 rounded-md whitespace-nowrap">科幻片</a>
+        <a href="#" class="nav-link text-white/95 text-[13px] lg:text-[15px] font-medium px-3 lg:px-4 py-1.5 rounded-md whitespace-nowrap">恐怖片</a>
+        <a href="#" class="nav-link text-white/95 text-[13px] lg:text-[15px] font-medium px-3 lg:px-4 py-1.5 rounded-md whitespace-nowrap">剧情片</a>
+        <a href="#" class="nav-link text-white/95 text-[13px] lg:text-[15px] font-medium px-3 lg:px-4 py-1.5 rounded-md whitespace-nowrap">战争片</a>
+        <a href="#" class="nav-link text-white/95 text-[13px] lg:text-[15px] font-medium px-3 lg:px-4 py-1.5 rounded-md whitespace-nowrap">国产剧</a>
+        <a href="#" class="nav-link text-white/95 text-[13px] lg:text-[15px] font-medium px-3 lg:px-4 py-1.5 rounded-md whitespace-nowrap">香港剧</a>
+        <a href="#" class="nav-link text-white/95 text-[13px] lg:text-[15px] font-medium px-3 lg:px-4 py-1.5 rounded-md whitespace-nowrap">台湾剧</a>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<!-- ========== Main ========== -->
+<main class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-10 py-5 lg:py-8">
+
+  <!-- 面包屑 -->
+  <nav class="crumb text-sm text-gray-500 mb-5 lg:mb-6 fade-up flex items-center gap-1.5 flex-wrap">
+    <a href="index.html" class="text-emerald-600 hover:text-emerald-700">首页</a>
+    <span class="text-gray-300">»</span>
+    <a href="#" class="text-emerald-600 hover:text-emerald-700">国产动漫</a>
+    <span class="text-gray-300">»</span>
+    <span class="text-gray-700 font-medium">茅山学宫</span>
+  </nav>
+
+  <!-- 影片信息（海报 + 表格） -->
+  <section class="bg-white rounded-2xl shadow-sm border border-gray-100 p-3 sm:p-5 lg:p-8 fade-up">
+    <div class="grid grid-cols-[110px_1fr] sm:grid-cols-[180px_1fr] md:grid-cols-[240px_1fr] lg:grid-cols-[300px_1fr] gap-3 sm:gap-5 lg:gap-8">
+      <!-- 海报 -->
+      <div class="flex flex-col gap-2 sm:gap-3 lg:gap-4">
+        <div class="relative aspect-[3/4] rounded-lg sm:rounded-xl lg:rounded-2xl overflow-hidden poster-hero">
+          <img src="https://picsum.photos/seed/maoshan-detail/600/800"
+               class="absolute inset-0 w-full h-full object-cover"
+               onerror="this.style.display='none'" alt="茅山学宫">
+          <!-- 占位字（图未加载时显示） -->
+          <div class="absolute inset-0 flex flex-col items-center justify-center text-white z-10 pointer-events-none px-2">
+            <div class="font-display text-xl sm:text-2xl md:text-3xl lg:text-5xl drop-shadow-lg leading-tight text-center">茅山学宫</div>
+            <div class="hidden sm:block text-white/80 text-[10px] lg:text-xs tracking-[.4em] lg:tracking-[.5em] mt-2 font-num">MAO SHAN</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 右侧信息：仅表格 -->
+      <div class="min-w-0">
+        <div class="border border-gray-200 rounded-lg sm:rounded-xl overflow-hidden">
+          <div class="info-row"><div class="info-key">片名</div><div class="info-val">茅山学宫</div></div>
+          <div class="info-row"><div class="info-key">导演</div><div class="info-val">王畅</div></div>
+          <div class="info-row"><div class="info-key">主演</div><div class="info-val">魏茹晨,橙璃,夜叉,司小幽,正经太郎,辰羽,刘中正,带轮儿,张傲仪,夏唷,冒冒,酥小盼</div></div>
+          <div class="info-row"><div class="info-key">类型</div><div class="info-val">国产动漫</div></div>
+          <div class="info-row"><div class="info-key">地区</div><div class="info-val">中国大陆</div></div>
+          <div class="info-row"><div class="info-key">更新</div><div class="info-val font-num text-red-500">2026-06-04 19:37:52</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 剧情介绍：独占一行 -->
+    <div class="mt-4 sm:mt-5 lg:mt-6">
+      <h3 class="section-title text-sm sm:text-base lg:text-lg font-semibold mb-2 sm:mb-3">剧情介绍</h3>
+      <div class="bg-gradient-to-br from-emerald-50/50 to-transparent border-l-4 border-emerald-400 rounded-r-lg p-3 sm:p-4 lg:p-5">
+        <p class="text-xs sm:text-sm lg:text-[15px] text-gray-700 leading-[1.8] lg:leading-[1.9] indent-6 sm:indent-8">
+          蓝星人周雨肥在一场粒子对撞实验中意外跃迁到一个全民修仙的异世界大陆，为了找到这个世界的粒子加速器重返蓝星，道术小白周雨肥在猫妖黑福和龙女林白的帮助下，结合现代思维知识逻辑，在茅山学宫开始学习茅山道术。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 播放源 + 剧集 -->
+  <section class="bg-white rounded-2xl shadow-sm border border-gray-100 mt-5 lg:mt-6 overflow-hidden fade-up">
+    <div class="px-4 sm:px-6 lg:px-8 py-4 lg:py-5 border-b border-gray-100 flex flex-wrap items-center justify-between gap-3">
+      <h3 class="section-title text-base lg:text-lg font-semibold">
+        《茅山学宫》
+      </h3>
+      <div class="flex items-center gap-2">
+        <button class="src-tab active">yun</button>
+      </div>
+    </div>
+    <div class="p-4 sm:p-6 lg:p-8">
+      <!-- 集数网格 -->
+      <div class="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-7 lg:grid-cols-9 gap-2 sm:gap-3">
+        <button class="ep-btn active text-sm py-2.5 rounded-lg"><span>第01集</span></button>
+        <button class="ep-btn text-sm py-2.5 rounded-lg"><span>第02集</span></button>
+        <button class="ep-btn text-sm py-2.5 rounded-lg"><span>第03集</span></button>
+        <button class="ep-btn text-sm py-2.5 rounded-lg"><span>第04集</span></button>
+        <button class="ep-btn text-sm py-2.5 rounded-lg"><span>第05集</span></button>
+        <button class="ep-btn text-sm py-2.5 rounded-lg"><span>第06集</span></button>
+        <button class="ep-btn text-sm py-2.5 rounded-lg"><span>第07集</span></button>
+        <button class="ep-btn text-sm py-2.5 rounded-lg"><span>第08集</span></button>
+        <button class="ep-btn text-sm py-2.5 rounded-lg"><span>第09集</span></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 观看帮助 -->
+  <section class="bg-amber-50/60 border border-amber-200/50 rounded-2xl mt-5 lg:mt-6 p-4 sm:p-5 lg:p-6 fade-up">
+    <div class="flex items-start gap-3">
+      <div class="w-9 h-9 rounded-lg bg-amber-400 flex items-center justify-center flex-shrink-0 shadow-md shadow-amber-200">
+        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+      </div>
+      <div class="flex-1">
+        <h4 class="text-sm lg:text-base font-semibold text-amber-900 mb-1.5">《茅山学宫》yun 资源观看帮助</h4>
+        <ul class="text-xs lg:text-sm text-amber-800/90 space-y-1 list-decimal list-inside marker:text-amber-500">
+          <li>有个别电影打开后播放需要等待。</li>
+          <li>有的播放不了请多刷新几下，试试。</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ========== Footer ========== -->
+<footer class="mt-12 lg:mt-16 bg-white border-t border-gray-100">
+  <div class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-10 py-8 lg:py-10">
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2 text-gray-500 text-sm">
+        <div class="w-7 h-7 rounded-lg bg-gradient-to-br from-emerald-400 to-green-600 flex items-center justify-center shadow-sm">
+          <svg class="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+          </svg>
+        </div>
+        <span>Powered by <span class="font-display text-emerald-700">影视资源</span></span>
+      </div>
+      <div class="text-gray-500 text-sm">联系邮箱：<a href="mailto:admin@admin.com" class="text-emerald-600 hover:text-emerald-700 transition-colors font-num">admin@admin.com</a></div>
+      <div class="text-gray-400 text-xs font-num">© 2026 FilmHub · All Rights Reserved</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // 搜索表单提交：按回车 / 点按钮均触发
+  function doSearch(e, form){
+    e.preventDefault();
+    const wd = (form.wd && form.wd.value || '').trim();
+    const type = form.type && form.type.value || '';
+    if(!wd){ form.wd && form.wd.focus(); return false; }
+    // 仿站演示：此处可对接后端搜索接口，例如：
+    // location.href = 'index.html?wd=' + encodeURIComponent(wd) + '&type=' + encodeURIComponent(type);
+    console.log('[search]', {wd, type});
+    alert('搜索：' + wd + (type ? '  ['+type+']' : ''));
+    return false;
+  }
+
+  // 集数切换
+  document.querySelectorAll('.ep-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.ep-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+  // 资源 tab 切换
+  document.querySelectorAll('.src-tab').forEach(tab=>{
+    tab.addEventListener('click',()=>{
+      document.querySelectorAll('.src-tab').forEach(t=>t.classList.remove('active'));
+      tab.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>
