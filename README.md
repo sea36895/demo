@@ -2,8 +2,7 @@
 测试项目
 
 
-# Tailwind-baidu1 YKCMS影视模板
-
-# Tailwind-kouzi1 YKCMS影视模板
-
-# Tailwind-kouzi2 YKCMS影视模板
+# YKCMS影视模板 纯html页面
+Tailwind-baidu1
+Tailwind-kouzi1
+Tailwind-kouzi2
